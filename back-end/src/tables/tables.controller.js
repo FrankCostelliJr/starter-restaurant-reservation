@@ -38,12 +38,12 @@ const isValid = (req, _res, next) => {
   if (newTable.capacity < 1)
     return next({
       status: 400,
-      message: `Must be able to accomodate atleast 1.`,
+      message: `Must be able to accommodate at least 1.`,
     });
   if (newTable.table_name.length < 2)
     return next({
       status: 400,
-      message: `table_name must be atleast 2 characters.`,
+      message: `table_name must be at least 2 characters.`,
     });
   next();
 };

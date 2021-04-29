@@ -1,23 +1,7 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
-const list = async (req, res, _next) => {
-  const { date, mobile_number } = req.query;
-  if (mobile_number) {
-    const data = await service.listByMobileNumber(mobile_number);
-    return res.json({
-      data: data,
-    });
-  }
-  const data = await service.list(date);
-  res.json({ data });
-};
-
-const read = async (_req, res, _next) => {
-  const reservation = res.locals.reservation;
-  res.status(200).json({ data: reservation[0] });
-};
-
+//Validation middleware:
 const validateId = async (req, res, next) => {
   const id = req.params.reservation_Id;
   const reservation = await service.read(id);
@@ -75,12 +59,6 @@ const validateFields = (req, res, next) => {
   next();
 };
 
-const create = async (_req, res, _next) => {
-  const reservation = res.locals.validReservation;
-  const response = await service.create(reservation);
-  res.status(201).json({ data: response[0] });
-};
-
 const validateWorkDay = (req, _res, next) => {
   let newDate = new Date(
     `${req.body.data.reservation_date} ${req.body.data.reservation_time}`
@@ -129,6 +107,30 @@ const validateStatusUpdate = async (req, res, next) => {
     return next({ status: 400, message: "unknown status cannot be updated!" });
 
   next();
+};
+
+//Route functions:
+const list = async (req, res, _next) => {
+  const { date, mobile_number } = req.query;
+  if (mobile_number) {
+    const data = await service.listByMobileNumber(mobile_number);
+    return res.json({
+      data: data,
+    });
+  }
+  const data = await service.list(date);
+  res.json({ data });
+};
+
+const create = async (_req, res, _next) => {
+  const reservation = res.locals.validReservation;
+  const response = await service.create(reservation);
+  res.status(201).json({ data: response[0] });
+};
+
+const read = async (_req, res, _next) => {
+  const reservation = res.locals.reservation;
+  res.status(200).json({ data: reservation[0] });
 };
 
 const updateStatus = async (req, res, _next) => {
