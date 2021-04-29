@@ -1,5 +1,5 @@
 const service = require("./tables.service");
-const wrapper = require("../errors/asyncErrorBoundary");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const reservation = require("../reservations/reservations.service");
 
 const list = async (req, res, _next) => {
@@ -122,9 +122,9 @@ const validClear = async (req, _res, next) => {
 };
 
 module.exports = {
-  list: [wrapper(list)],
-  read: [wrapper(checkId), wrapper(read)],
-  create: [wrapper(isValid), wrapper(create)],
-  update: [wrapper(validUpdate), wrapper(validTable), wrapper(update)],
-  delete: [wrapper(validClear), wrapper(clearTable)],
+  list: [asyncErrorBoundary(list)],
+  read: [asyncErrorBoundary(checkId), asyncErrorBoundary(read)],
+  create: [asyncErrorBoundary(isValid), asyncErrorBoundary(create)],
+  update: [asyncErrorBoundary(validUpdate), asyncErrorBoundary(validTable), asyncErrorBoundary(update)],
+  delete: [asyncErrorBoundary(validClear), asyncErrorBoundary(clearTable)],
 };
