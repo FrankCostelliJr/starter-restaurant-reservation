@@ -45,7 +45,6 @@ function ReservationForm({ type }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    //make sure reservation date is not in the past or on non working day.
     let newDate = new Date(
       `${formData.reservation_date} ${formData.reservation_time}`
     );
@@ -53,8 +52,7 @@ function ReservationForm({ type }) {
     try {
       if (newDate.getDay() === 2)
         throw new Error("Restaurant is closed on Tuesdays!");
-      if (newDate < currentDay) throw new Error("Fellow time traveler eh!");
-      //check if reservation time is within working hours
+      if (newDate < currentDay) throw new Error("Reservation must be for a future date.");
       let time = Number(formData.reservation_time.replace(":", ""));
       if (time < 1030 || time > 2130)
         throw new Error(

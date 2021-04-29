@@ -1,8 +1,5 @@
-/**
- * List handler for reservation resources
- */
 const service = require("./reservations.service");
-const wrapper = require("../errors/asyncErrorBoundary");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 const list = async (req, res, _next) => {
   const { date, mobile_number } = req.query;
@@ -21,7 +18,7 @@ const read = async (_req, res, _next) => {
   res.status(200).json({ data: reservation[0] });
 };
 
-const hasValidId = async (req, res, next) => {
+const validateId = async (req, res, next) => {
   const id = req.params.reservation_Id;
   const reservation = await service.read(id);
   if (!reservation.length)
@@ -30,7 +27,7 @@ const hasValidId = async (req, res, next) => {
   next();
 };
 
-const isValid = (req, res, next) => {
+const validateFields = (req, res, next) => {
   if (!req.body.data) return next({ status: 400, message: "No date selected" });
   const { reservation_date, reservation_time, people, status } = req.body.data;
   const requiredFields = [
@@ -46,48 +43,67 @@ const isValid = (req, res, next) => {
       return next({ status: 400, message: `Invalid input for ${field}` });
     }
   }
-  if (
-    !reservation_date.match(/\d{4}-\d{2}-\d{2}/g) ||
-    typeof people !== "number" ||
-    !reservation_time.match(/[0-9]{2}:[0-9]{2}/g)
-  )
+
+  if (!reservation_date.match(/\d{4}-\d{2}-\d{2}/g)) {
     return next({
-      status: 400,
-      message: `Invalid input for reservation_date, reservation_time, or people`,
-    });
+      status:400,
+      message: 'Invalid input: reservation_date'
+    })
+  }
+
+  if (!reservation_time.match(/[0-9]{2}:[0-9]{2}/g)) {
+    return next({
+      status:400,
+      message: 'Invalid input: reservation_time'
+    })
+  }
+
+  if (typeof people !== 'number') {
+    return next({
+      status:400,
+      message: 'Invalid input: people'
+    })
+  }
+  
   if (status === "seated")
-    return next({ status: 400, message: "status can not be seated!" });
+    return next({ status: 400, message: "Status is already seated!" });
 
   if (status === "finished")
-    return next({ status: 400, message: "status can not be finished!" });
+    return next({ status: 400, message: "Status is already finished!" });
 
   res.locals.validReservation = req.body.data;
   next();
 };
 
 const create = async (_req, res, _next) => {
-  const newReservation = res.locals.validReservation;
-  const newRes = await service.create(newReservation);
-  res.status(201).json({ data: newRes[0] });
+  const reservation = res.locals.validReservation;
+  const response = await service.create(reservation);
+  res.status(201).json({ data: response[0] });
 };
 
-const isFutureWorkingDate = (req, _res, next) => {
+const validateWorkDay = (req, _res, next) => {
   let newDate = new Date(
     `${req.body.data.reservation_date} ${req.body.data.reservation_time}`
   );
   const currentDay = new Date();
-  if (
-    newDate.getDay() === 2 ||
-    newDate.valueOf() < currentDay.valueOf()
-  )
+
+  if (newDate.getDay() === 2) {
     return next({
       status: 400,
-      message: `You can only reserve for future dates and Restaurant is closed on Tuesdays`,
-    });
+      message: 'Restaurant is closed on Tuesdays!'
+    })
+  }
+
+  if (newDate.valueOf() < currentDay.valueOf()) {
+    return next({
+      status: 400,
+      message: 'Reservations must be for a future date!'
+    })
+  }
   next();
 };
 
-const isDuringWorkingHours = (req, _res, next) => {
+const validateWorkHours = (req, _res, next) => {
   let time = Number(req.body.data.reservation_time.replace(":", ""));
   if (time < 1030 || time > 2130)
     return next({
@@ -104,13 +120,13 @@ const validateStatusUpdate = async (req, res, next) => {
   if (currentStatus === "finished")
     return next({
       status: 400,
-      message: "a finished reservation cannot be updated",
+      message: "finished reservations cannot be updated!",
     });
 
   if (status === "cancelled") return next();
 
   if (status !== "booked" && status !== "seated" && status !== "finished")
-    return next({ status: 400, message: "Can not update unknown status" });
+    return next({ status: 400, message: "unknown status cannot be updated!" });
 
   next();
 };
@@ -134,24 +150,24 @@ const update = async (req, res, _next) => {
 };
 
 module.exports = {
-  list: [wrapper(list)],
-  read: [wrapper(hasValidId), wrapper(read)],
+  list: [asyncErrorBoundary(list)],
+  read: [asyncErrorBoundary(validateId), asyncErrorBoundary(read)],
   create: [
-    wrapper(isValid),
-    wrapper(isFutureWorkingDate),
-    wrapper(isDuringWorkingHours),
-    wrapper(create),
+    asyncErrorBoundary(validateFields),
+    asyncErrorBoundary(validateWorkDay),
+    asyncErrorBoundary(validateWorkHours),
+    asyncErrorBoundary(create),
   ],
   updateStatus: [
-    wrapper(hasValidId),
-    wrapper(validateStatusUpdate),
-    wrapper(updateStatus),
+    asyncErrorBoundary(validateId),
+    asyncErrorBoundary(validateStatusUpdate),
+    asyncErrorBoundary(updateStatus),
   ],
   update: [
-    wrapper(hasValidId),
-    wrapper(isValid),
-    wrapper(isFutureWorkingDate),
-    wrapper(isDuringWorkingHours),
-    wrapper(update),
+    asyncErrorBoundary(validateId),
+    asyncErrorBoundary(validateFields),
+    asyncErrorBoundary(validateWorkDay),
+    asyncErrorBoundary(validateWorkHours),
+    asyncErrorBoundary(update),
   ],
 };
