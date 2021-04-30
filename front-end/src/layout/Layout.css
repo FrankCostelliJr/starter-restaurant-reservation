@@ -1,4 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Roboto&display=swap");
+
 .side-bar {
   background-color: #393a44;
   min-width: 200px;
+}
+
+.title {
+  font-family: "Righteous", cursive;
+}
+
+.pad-top {
+  padding-top: 10px;
+}
+
+body {
+  background-color: #161a1d;
+  color: #f5f3f4;
+  font-family: "Roboto", sans-serif;
+}
+
+.card-colors {
+  background-color: #660708;
+  color: #f5f3f4;
 }

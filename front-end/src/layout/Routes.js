@@ -7,7 +7,7 @@ import { today } from "../utils/date-time";
 import ReservationForm from "../dashboard/ReservationForm";
 import TablesForm from "../dashboard/TablesForm";
 import Seating from "../dashboard/Seating";
-import FindByNumber from "../dashboard/FindByNumber";
+import SearchByPhone from "../dashboard/SearchByPhone";
 
 /**
  * Defines all the routes for the application.
@@ -41,7 +41,7 @@ function Routes() {
         <ReservationForm type="Edit"/>
       </Route>
       <Route path="/search">
-        <FindByNumber />
+        <SearchByPhone />
       </Route>
       <Route>
         <NotFound />

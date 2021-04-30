@@ -26,10 +26,10 @@ export default function Reservation({ reservation, type }) {
 
   return (
     <>
-      <div className="card m-3 bg-light" style={{ width: "18rem" }}>
+      <div className="card m-3 card-colors" style={{ width: "18rem" }}>
         <div className="card-body">
           <div className="d-flex justify-content-between">
-            <h4 className="card-title">
+            <h4 className="card-title title">
               {reservation.first_name} {reservation.last_name}
             </h4>
             <h6>

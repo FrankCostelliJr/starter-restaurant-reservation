@@ -34,7 +34,7 @@ export default function Tables() {
   return (
     <>
       <div className="d-flex flex-column align-items-center">
-        <h2 className="text-center pb-2">Create a New Table</h2>
+        <h3 className="text-center pb-2 title pad-top">Create a New Table</h3>
         <form action="" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="first_name" className="form-label">
