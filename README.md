@@ -78,10 +78,10 @@ Connect to a postgresql database by creating .env files for the back-end and fro
 
 ### back-end .env example -> Connects to database
 
-DATABASE_URL=enter-your-production-database-url-here
-DATABASE_URL_DEVELOPMENT=enter-your-development-database-url-here
-DATABASE_URL_TEST=enter-your-test-database-url-here
-DATABASE_URL_PREVIEW=enter-your-preview-database-url-here
+DATABASE_URL="postgres://xrxmctgc:3WnjnpAaDWkJzEvf3XnHQl55IzGu1hc1@queenie.db.elephantsql.com:5432/xrxmctgc"
+DATABASE_URL_DEVELOPMENT="postgres://affimvac:EH63pVHWPZbjvogvQChgL3kUQ5YGR253@queenie.db.elephantsql.com:5432/affimvac"
+DATABASE_URL_TEST="postgres://hnzqjhmy:fMMS0sac8sDlXoHgQeKORJ6R4MEfmkgb@queenie.db.elephantsql.com:5432/hnzqjhmy"
+DATABASE_URL_PREVIEW="postgres://cwwptwuy:RMJtmAnOz61VG5vNyu2dNfu6U-t3nRug@queenie.db.elephantsql.com:5432/cwwptwuy"
 LOG_LEVEL=info
 
 ### front-end .env example -> Connects to server
