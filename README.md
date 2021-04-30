@@ -1,8 +1,11 @@
-Thinkful-Final-Capstone: Restaurant Reservation System
-Live Site
-Restaurant Reservation System
+# Thinkful-Final-Capstone: Restaurant Reservation System
 
-Application Summary
+## Live Site
+
+### Restaurant Reservation System
+
+### Application Summary
+
 A Restaurant Reservation System that is used to keep track of guest reservations and table assignments.
 The user can create new reservations and search for standing reservations by mobile phone number.
 Keep track of where reservations are seated and occupied tables.
@@ -14,9 +17,9 @@ Tech Stack
 This web app was developed using JavaScript, React, Express, Node, PostgreSQL, KnexJS, HTML, CSS, and BootStrap.
 
 API Documentation
-Route Method Status Code Description
-/reservations GET 200 Returns a list of reservations for the current date
-/reservations?date=####-##-## GET 200 Returns a list of reservations for the given date
+| Route | Method | Status Code | Description
+| /reservations | GET | 200 | Returns a list of reservations for the current date
+| /reservations?date=####-##-## | GET | 200 | Returns a list of reservations for the given date
 /reservations POST 201 Creates a new reservation
 /reservations/:reservation_id GET 200 Returns the reservation for the given ID
 /reservations/:reservation_id PUT 200 Updates the reservation for the given ID
