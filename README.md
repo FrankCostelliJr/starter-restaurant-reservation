@@ -2,7 +2,7 @@
 
 ## Live Site
 
-https://starter-restaurant-reservation-k7pg7wnwd-frankcostellijr.vercel.app/dashboard
+https://starter-restaurant-reservation-red.vercel.app/dashboard
 
 ## Restaurant Reservation System
 
