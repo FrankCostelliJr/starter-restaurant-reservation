@@ -6,12 +6,7 @@ import { today, next, previous, formatDate } from "../utils/date-time";
 import Reservation from "./Reservation";
 import Tables from "./Tables";
 
-/**
- * Defines the dashboard page.
- * @param date
- *  the date for which the user wants to view reservations.
- * @returns {JSX.Element}
- */
+
 function Dashboard() {
   function useQuery() {
     return new URLSearchParams(useLocation().search);
