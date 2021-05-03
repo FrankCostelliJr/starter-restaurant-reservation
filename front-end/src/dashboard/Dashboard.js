@@ -6,7 +6,6 @@ import { today, next, previous, formatDate } from "../utils/date-time";
 import Reservation from "./Reservation";
 import Tables from "./Tables";
 
-//comment
 function Dashboard() {
   function useQuery() {
     return new URLSearchParams(useLocation().search);

@@ -2,7 +2,7 @@
 
 ## Live Site
 
-https://starter-restaurant-reservation-red.vercel.app/dashboard
+[I'm an inline-style link](https://reservation-system-front.vercel.app/)
 
 ## Restaurant Reservation System
 
