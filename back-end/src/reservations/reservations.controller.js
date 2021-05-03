@@ -118,7 +118,9 @@ const list = async (req, res, _next) => {
       data: data,
     });
   }
+  console.log('About to list')
   const data = await service.list(date);
+  console.log('After list')
   res.json({ data });
 };
 
