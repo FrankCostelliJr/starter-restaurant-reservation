@@ -2,7 +2,7 @@
 
 ## Live Site
 
-[I'm an inline-style link](https://reservation-system-front.vercel.app/)
+[Live App](https://reservation-system-front.vercel.app/)
 
 ## Restaurant Reservation System
 
