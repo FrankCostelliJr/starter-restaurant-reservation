@@ -1,7 +1,7 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
-//Validation middleware:
+//Validation middleware for routes:
 const validateId = async (req, res, next) => {
   const id = req.params.reservation_Id;
   const reservation = await service.read(id);
